@@ -15,16 +15,8 @@ const employers = [
 ];
 
 const nameCourse = 'Базовый React';
-let command = [];
-for (let employee of employers) {
-  if (employee.length > 0 && employee.trim() !== '') {
-    command.push(employee);
-  }
-}
-for (let i = 0; i < command.length; i++) {
-  command[i] = command[i].toLowerCase().trim();
-  command[i] = command[i][0].toUpperCase() + command[i].slice(1);
-}
+const command = employers.filter(name => name.trim().length)
+    .map(name => name.trim().charAt(0).toUpperCase() + name.trim().substr(1).toLowerCase())
 
 const data = {
   cash: [3, 8, 3],
@@ -32,22 +24,14 @@ const data = {
   add: ['styled-components', 'firebase'],
 };
 
-const {cash} = data;
-const calcCash = (own = 0) => {
+const {cash, react, react:[reactFirst], add} = data;
 
-  const everyCash = cash;
-  let total = own;
-  for (let every of everyCash) {
-    total += every;
-  }
-  return total;
-}
+const calculateCash = everyCash => everyCash.reduce((previous, current) => previous + current)
 
-let lesson = calcCash();
-const {react, react:[reactFirst], add} = data;
+let lesson = calculateCash(cash);
 
 const makeBusiness = (director, allModule, gang, course , teacher = 'Максим') => {
-  const sumTech = `${react} ${add}, и другие`;
+  const sumTech = [...react, ...add, 'и другие'];
   console.log(
     `Стартуем новый курс: "${course}". Владелец: ${director}, преподаватель: ${teacher}. Всего уроков: ${allModule}.
 Команда Академии: ${gang}`
@@ -59,4 +43,4 @@ const makeBusiness = (director, allModule, gang, course , teacher = 'Макси�
 
 }
 
-makeBusiness( 'Артем', lesson, command, nameCourse);
+makeBusiness('Артем', lesson, command, nameCourse);
